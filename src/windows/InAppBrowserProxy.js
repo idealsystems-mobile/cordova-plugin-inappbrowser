@@ -1,4 +1,4 @@
-/*
+cordova.define("org.apache.cordova.inappbrowser.InAppBrowserProxy", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -57,9 +57,9 @@ function attachNavigationEvents(element, callback) {
         });
 
         element.addEventListener("MSWebViewContentLoading", function (e) {
-            if (navigationButtonsDiv) {
-                backButton.disabled = !popup.canGoBack;
-                forwardButton.disabled = !popup.canGoForward;
+            if (navigationButtonsDiv && popup) {
+                //backButton.disabled = !popup.canGoBack;
+                //forwardButton.disabled = !popup.canGoForward;
             }
         });
     } else {
@@ -80,18 +80,35 @@ function attachNavigationEvents(element, callback) {
     }
 }
 
+function setButtonStyle(element) {
+    element.style.width = "60px";
+    element.style.borderRadius = "20px";
+    element.style.backgroundColor = "lightgrey";
+    element.style.textAlign = "center";
+    element.style.fontSize = "30px";
+    element.style.display = "inline-block";
+    element.style.margin = "0 4px";
+}
+
 var IAB = {
     close: function (win, lose) {
         if (browserWrap) {
             if (win) win({ type: "exit" });
-
+            
             browserWrap.parentNode.removeChild(browserWrap);
             browserWrap = null;
             popup = null;
+            for (var i = 0; i < document.body.childElementCount; i++) {
+                document.body.children[i].style.display = "block";
+            }
         }
     },
     show: function (win, lose) {
         if (browserWrap) {
+            
+            for (var i = 0; i < document.body.childElementCount; i++) {
+                document.body.children[i].style.display = "none";
+            }
             browserWrap.style.display = "block";
         }
     },
@@ -111,11 +128,8 @@ var IAB = {
             if (!browserWrap) {
                 browserWrap = document.createElement("div");
                 browserWrap.style.position = "absolute";
-                browserWrap.style.borderWidth = "40px";
-                browserWrap.style.width = "calc(100% - 80px)";
-                browserWrap.style.height = "calc(100% - 80px)";
-                browserWrap.style.borderStyle = "solid";
-                browserWrap.style.borderColor = "rgba(0,0,0,0.25)";
+                browserWrap.style.width = "100%";
+                browserWrap.style.height = "100%";
 
                 browserWrap.onclick = function () {
                     setTimeout(function () {
@@ -150,7 +164,7 @@ var IAB = {
                 navigationButtonsDivInner = document.createElement("div");
                 navigationButtonsDivInner.style.paddingTop = "10px";
                 navigationButtonsDivInner.style.height = "50px";
-                navigationButtonsDivInner.style.width = "160px";
+                navigationButtonsDivInner.style.width = "210px";
                 navigationButtonsDivInner.style.margin = "0 auto";
                 navigationButtonsDivInner.style.backgroundColor = "#404040";
                 navigationButtonsDivInner.style.zIndex = "999";
@@ -159,36 +173,23 @@ var IAB = {
                 };
 
 
-                backButton = document.createElement("button");
-                backButton.style.width = "40px";
-                backButton.style.height = "40px";
-                backButton.style.borderRadius = "40px";
-
-                backButton.innerText = "<-";
+                backButton = document.createElement("div");
+                setButtonStyle(backButton);
+                backButton.innerText = "<";
                 backButton.addEventListener("click", function (e) {
-                    if (popup.canGoBack)
-                        popup.goBack();
+                    if (popup.canGoBack) popup.goBack();
                 });
 
-                forwardButton = document.createElement("button");
-                forwardButton.style.marginLeft = "20px";
-                forwardButton.style.width = "40px";
-                forwardButton.style.height = "40px";
-                forwardButton.style.borderRadius = "40px";
-
-                forwardButton.innerText = "->";
+                forwardButton = document.createElement("div");
+                setButtonStyle(forwardButton);
+                forwardButton.innerText = ">";
                 forwardButton.addEventListener("click", function (e) {
-                    if (popup.canGoForward)
-                        popup.goForward();
+                    if (popup.canGoForward) popup.goForward();
                 });
 
-                closeButton = document.createElement("button");
-                closeButton.style.marginLeft = "20px";
-                closeButton.style.width = "40px";
-                closeButton.style.height = "40px";
-                closeButton.style.borderRadius = "40px";
-
-                closeButton.innerText = "x";
+                closeButton = document.createElement("div");
+                setButtonStyle(closeButton);
+                closeButton.innerText = "X";
                 closeButton.addEventListener("click", function (e) {
                     setTimeout(function () {
                         IAB.close(win);
@@ -197,8 +198,8 @@ var IAB = {
                
                 if (!isWebViewAvailable) {
                     // iframe navigation is not yet supported
-                    backButton.disabled = true;
-                    forwardButton.disabled = true;
+                    //backButton.disabled = true;
+                    //forwardButton.disabled = true;
                 }
 
                 navigationButtonsDivInner.appendChild(backButton);
@@ -258,3 +259,4 @@ var IAB = {
 module.exports = IAB;
 
 require("cordova/exec/proxy").add("InAppBrowser", module.exports);
+});
