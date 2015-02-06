@@ -220,6 +220,7 @@ var IAB = {
             }
             popup.src = strUrl;
         }
+		IAB.show();
     },
 
     injectScriptCode: function (win, fail, args) {
