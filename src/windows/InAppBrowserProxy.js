@@ -42,15 +42,18 @@ var isWebViewAvailable = cordova.platformId == 'windows';
 
 function attachNavigationEvents(element, callback) {
     if (isWebViewAvailable) {
-        element.addEventListener("MSWebViewNavigationStarting", function (e) {
+         element.addEventListener("MSWebViewNavigationStarting", function (e) {
+            mcf.spinner.start();
             callback({ type: "loadstart", url: e.uri}, {keepCallback: true} );
         });
 
         element.addEventListener("MSWebViewNavigationCompleted", function (e) {
+            mcf.spinner.stop();
             callback({ type: e.isSuccess ? "loadstop" : "loaderror", url: e.uri}, {keepCallback: true});
         });
 
         element.addEventListener("MSWebViewUnviewableContentIdentified", function (e) {
+            mcf.spinner.stop();
             // WebView found the content to be not HTML.
             // http://msdn.microsoft.com/en-us/library/windows/apps/dn609716.aspx
             callback({ type: "loaderror", url: e.uri}, {keepCallback: true});
