@@ -154,11 +154,11 @@ var IAB = {
             browserWrap.appendChild(popup);
 
             if (features.indexOf("location=yes") !== -1 || features.indexOf("location") === -1) {
-                popup.style.height = "calc(100% - 60px)";
+                popup.style.height = "calc(100% - 65px)";
 
                 navigationButtonsDiv = document.createElement("div");
-                navigationButtonsDiv.style.height = "60px";
-                navigationButtonsDiv.style.backgroundColor = "#404040";
+                navigationButtonsDiv.style.height = "65px";
+                navigationButtonsDiv.style.backgroundColor = "#BDBDBD";
                 navigationButtonsDiv.style.zIndex = "999";
                 navigationButtonsDiv.onclick = function (e) {
                     e.cancelBubble = true;
@@ -169,7 +169,7 @@ var IAB = {
                 navigationButtonsDivInner.style.height = "50px";
                 navigationButtonsDivInner.style.width = "210px";
                 navigationButtonsDivInner.style.margin = "0 auto";
-                navigationButtonsDivInner.style.backgroundColor = "#404040";
+                navigationButtonsDivInner.style.backgroundColor = "#BDBDBD";
                 navigationButtonsDivInner.style.zIndex = "999";
                 navigationButtonsDivInner.onclick = function (e) {
                     e.cancelBubble = true;
@@ -210,6 +210,7 @@ var IAB = {
                 navigationButtonsDivInner.appendChild(closeButton);
                 navigationButtonsDiv.appendChild(navigationButtonsDivInner);
 
+                browserWrap.style.backgroundColor = "#BDBDBD";
                 browserWrap.appendChild(navigationButtonsDiv);
             } else {
                 popup.style.height = "100%";
