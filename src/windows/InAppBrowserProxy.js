@@ -48,12 +48,12 @@ function attachNavigationEvents(element, callback) {
         });
 
         element.addEventListener("MSWebViewNavigationCompleted", function (e) {
-            mcf.spinner.stop();
+            //mcf.spinner.stop();
             callback({ type: e.isSuccess ? "loadstop" : "loaderror", url: e.uri}, {keepCallback: true});
         });
 
         element.addEventListener("MSWebViewUnviewableContentIdentified", function (e) {
-            mcf.spinner.stop();
+            //mcf.spinner.stop();
             // WebView found the content to be not HTML.
             // http://msdn.microsoft.com/en-us/library/windows/apps/dn609716.aspx
             callback({ type: "loaderror", url: e.uri}, {keepCallback: true});
