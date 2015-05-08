@@ -102,7 +102,8 @@ var IAB = {
             browserWrap = null;
             popup = null;
             for (var i = 0; i < document.body.childElementCount; i++) {
-                document.body.children[i].style.display = "block";
+                document.body.children[i].style.display = document.body.children[i].getAttribute("data-visible");
+                document.body.children[i].removeAttribute("data-visible");
             }
         }
     },
@@ -110,6 +111,7 @@ var IAB = {
         if (browserWrap) {
             
             for (var i = 0; i < document.body.childElementCount; i++) {
+                document.body.children[i].setAttribute("data-visible", document.body.children[i].style.display);
                 document.body.children[i].style.display = "none";
             }
             browserWrap.style.display = "block";
