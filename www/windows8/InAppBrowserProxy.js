@@ -1,4 +1,4 @@
-/*
+cordova.define("org.apache.cordova.inappbrowser.InAppBrowserProxy", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -92,10 +92,14 @@ function setButtonStyle(element) {
     element.style.display = "inline-block";
     element.style.margin = "0 4px";
 }
-function showingKeyboard(e){
-    browserWrap.style.height = (browserWrap.offsetHeight - e.occludedRect.height)+"px";
+function showingKeyboard(e) {
+    //console.log("showing keyboard called!");
+    e.detail.ensuredFocusedElementInView = true;
+    browserWrap.style.height = "100%";
+    browserWrap.style.height =e.occludedRect.y+"px";
 }
-function hidingKeyboard(e){
+function hidingKeyboard(e) {
+    //console.log("hiding keyboard called!");
     browserWrap.style.height = "100%";
 }
 var IAB = {
@@ -272,3 +276,5 @@ var IAB = {
 module.exports = IAB;
 
 require("cordova/exec/proxy").add("InAppBrowser", module.exports);
+
+});
